@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +27,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
-public class MainActivity extends AppCompatActivity {
+public class ProcessActivity extends AppCompatActivity {
 
     public VisionServiceClient visionServiceClient= new VisionServiceRestClient("26b4e6f2fc824cb4993944031baf3511", "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0");
 
@@ -38,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Bitmap mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        ImageView imageView = findViewById(R.id.imageView);
         imageView.setImageBitmap(mBitmap);
 
-        Button btnProcess = (Button)findViewById(R.id.btnProcess);
+        Button btnProcess = findViewById(R.id.btnProcess);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 AsyncTask<InputStream, String, String> recognizeTextTask = new AsyncTask<InputStream, String, String>() {
-                    ProgressDialog mDialog = new ProgressDialog(MainActivity.this);
+                    ProgressDialog mDialog = new ProgressDialog(ProcessActivity.this);
 
                     @Override
                     protected String doInBackground(InputStream... params) {
@@ -105,11 +104,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        /* !!! TODO REMOVE WHEN EVERYTHING WORKING
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if(currentUser == null){
-            Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent loginIntent = new Intent(ProcessActivity.this, LoginActivity.class);
             startActivity(loginIntent);
             finish();
-        }
+        }*/
     }
 }
