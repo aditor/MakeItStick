@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity{
                 String loginEmail = loginEmailText.getText().toString();
                 String loginPass = loginPassText.getText().toString();
 
-                if(TextUtils.isEmpty(loginEmail) && TextUtils.isEmpty(loginPass)){
+                if(!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)){
 
                     loginProgress.setVisibility(View.VISIBLE);
 
@@ -74,9 +74,6 @@ public class LoginActivity extends AppCompatActivity{
     @Override
     protected void onStart(){
         super.onStart();
-
-
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if(currentUser != null){
