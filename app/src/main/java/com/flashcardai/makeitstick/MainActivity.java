@@ -30,7 +30,7 @@ import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
-    public VisionServiceClient visionServiceClient= new VisionServiceRestClient("dfccf3aae0fe48139bcd8f26018fbb8e");
+    public VisionServiceClient visionServiceClient= new VisionServiceRestClient("26b4e6f2fc824cb4993944031baf3511", "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                             String result = new Gson().toJson(ocr);
                             return result;
                         }catch(Exception e){
+                            System.out.println(e);
                             return null;
                         }
                     }
