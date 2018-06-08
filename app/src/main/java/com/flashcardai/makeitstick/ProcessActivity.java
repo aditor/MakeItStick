@@ -1,7 +1,6 @@
 package com.flashcardai.makeitstick;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -12,8 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.microsoft.projectoxford.vision.VisionServiceClient;
 import com.microsoft.projectoxford.vision.VisionServiceRestClient;
@@ -28,19 +25,21 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 public class ProcessActivity extends AppCompatActivity {
+    Button btnProcess;
+    ImageView imageView;
 
     public VisionServiceClient visionServiceClient= new VisionServiceRestClient("26b4e6f2fc824cb4993944031baf3511", "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_process);
 
         Bitmap mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-        ImageView imageView = findViewById(R.id.imageView);
+        imageView = findViewById(R.id.imageView);
         imageView.setImageBitmap(mBitmap);
 
-        Button btnProcess = findViewById(R.id.btnProcess);
+        btnProcess = findViewById(R.id.btnProcess);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
