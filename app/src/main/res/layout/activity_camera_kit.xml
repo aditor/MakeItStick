@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".CameraKitActivity">
 
     <com.wonderkiln.camerakit.CameraView
+        xmlns:camerakit="http://schemas.android.com/apk/res-auto"
         android:id="@+id/camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true" />
+        camerakit:ckFacing="back"
+        camerakit:ckFlash="off"
+        camerakit:ckFocus="continuous"
+        camerakit:ckMethod="standard"
+        camerakit:ckPermissions="strict"
+        camerakit:ckCropOutput="true"
+        android:adjustViewBounds="true"
+        camerakit:ckJpegQuality="100"/>
 
-</android.support.constraint.ConstraintLayout>
+
+
+</LinearLayout>
