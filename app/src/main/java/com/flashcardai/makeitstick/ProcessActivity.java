@@ -1,6 +1,9 @@
 package com.flashcardai.makeitstick;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -22,12 +25,15 @@ import com.microsoft.projectoxford.vision.contract.Word;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class ProcessActivity extends AppCompatActivity {
     Button btnProcess;
     ImageView imageView;
-
+    Bitmap mBitmap;
     public VisionServiceClient visionServiceClient= new VisionServiceRestClient("26b4e6f2fc824cb4993944031baf3511", "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0");
 
     @Override
@@ -35,14 +41,10 @@ public class ProcessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_process);
 
-        Bitmap mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-        imageView = findViewById(R.id.imageView);
-        imageView.setImageBitmap(mBitmap);
-
         btnProcess = findViewById(R.id.btnProcess);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        this.mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
 
         btnProcess.setOnClickListener(new View.OnClickListener(){
