@@ -1,11 +1,7 @@
 package com.flashcardai.makeitstick;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.microsoft.projectoxford.vision.VisionServiceClient;
@@ -25,26 +22,27 @@ import com.microsoft.projectoxford.vision.contract.Word;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class ProcessActivity extends AppCompatActivity {
     Button btnProcess;
     ImageView imageView;
-    Bitmap mBitmap;
+    TextView textDescription;
     public VisionServiceClient visionServiceClient= new VisionServiceRestClient("26b4e6f2fc824cb4993944031baf3511", "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_process);
-
         btnProcess = findViewById(R.id.btnProcess);
+        imageView = findViewById(R.id.imageView);
+        textDescription = findViewById(R.id.txtDescription);
+
+        Bitmap mBitmap = Storage.getInstance().getBitmap();
+        imageView.setImageBitmap(mBitmap);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        this.mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
 
         btnProcess.setOnClickListener(new View.OnClickListener(){
@@ -87,6 +85,7 @@ public class ProcessActivity extends AppCompatActivity {
                             stringBuilder.append("\n\n");
                         }
                         txtDescription.setText(stringBuilder);
+                        Toast.makeText(ProcessActivity.this, stringBuilder, Toast.LENGTH_LONG).show();
                     }
                     @Override
                     protected void onProgressUpdate(String... values){

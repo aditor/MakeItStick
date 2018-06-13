@@ -1,5 +1,6 @@
 package com.flashcardai.makeitstick;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.Button;
 
 import com.wonderkiln.camerakit.CameraKitError;
 import com.wonderkiln.camerakit.CameraKitEvent;
+import com.wonderkiln.camerakit.CameraKitEventCallback;
 import com.wonderkiln.camerakit.CameraKitEventListener;
 import com.wonderkiln.camerakit.CameraKitImage;
 import com.wonderkiln.camerakit.CameraKitVideo;
@@ -71,8 +73,16 @@ public class CameraKitActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        if(v == captureButton){
-            cameraView.captureImage();
-        }
+        if(v == captureButton)
+            cameraView.captureImage(new CameraKitEventCallback<CameraKitImage>() {
+                @Override
+                public void callback(CameraKitImage cameraKitImage) {
+                    Bitmap bitmap = cameraKitImage.getBitmap();
+                    Intent intent = new Intent(CameraKitActivity.this, ProcessActivity.class);
+                    Storage.getInstance().setBitmap(bitmap);
+                    bitmap = Storage.getInstance().getBitmap();
+                    startActivity(intent);
+                }
+            });
     }
 }
