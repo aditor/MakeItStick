@@ -28,7 +28,7 @@ public class ProcessActivity extends AppCompatActivity {
     Button btnProcess;
     ImageView imageView;
     TextView textDescription;
-    public VisionServiceClient visionServiceClient= new VisionServiceRestClient("26b4e6f2fc824cb4993944031baf3511", "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0");
+    public VisionServiceClient visionServiceClient = new VisionServiceRestClient("26b4e6f2fc824cb4993944031baf3511", "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,46 +39,48 @@ public class ProcessActivity extends AppCompatActivity {
         textDescription = findViewById(R.id.txtDescription);
 
         Bitmap mBitmap = Storage.getInstance().getBitmap();
+
         imageView.setImageBitmap(mBitmap);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
 
-        btnProcess.setOnClickListener(new View.OnClickListener(){
+        btnProcess.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 AsyncTask<InputStream, String, String> recognizeTextTask = new AsyncTask<InputStream, String, String>() {
                     ProgressDialog mDialog = new ProgressDialog(ProcessActivity.this);
 
                     @Override
                     protected String doInBackground(InputStream... params) {
-                        try{
+                        try {
                             publishProgress("Recognizing");
                             OCR ocr = visionServiceClient.recognizeText(params[0], LanguageCodes.English, true);
                             String result = new Gson().toJson(ocr);
                             return result;
-                        }catch(Exception e){
+                        } catch (Exception e) {
                             System.out.println(e);
                             return null;
                         }
                     }
 
                     @Override
-                    protected void onPreExecute(){
+                    protected void onPreExecute() {
                         mDialog.show();
                     }
+
                     @Override
-                    protected void onPostExecute(String s){
+                    protected void onPostExecute(String s) {
                         mDialog.dismiss();
-                        OCR ocr = new Gson().fromJson(s,OCR.class);
-                        TextView txtDescription = (TextView)findViewById(R.id.txtDescription);
+                        OCR ocr = new Gson().fromJson(s, OCR.class);
+                        TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
                         StringBuilder stringBuilder = new StringBuilder();
 
-                        for(Region region:ocr.regions){
-                            for(Line line:region.lines){
-                                for(Word word:line.words){
-                                    stringBuilder.append(word.text+" ");
+                        for (Region region : ocr.regions) {
+                            for (Line line : region.lines) {
+                                for (Word word : line.words) {
+                                    stringBuilder.append(word.text + " ");
                                     stringBuilder.append("\n");
                                 }
                             }
@@ -87,8 +89,9 @@ public class ProcessActivity extends AppCompatActivity {
                         txtDescription.setText(stringBuilder);
                         Toast.makeText(ProcessActivity.this, stringBuilder, Toast.LENGTH_LONG).show();
                     }
+
                     @Override
-                    protected void onProgressUpdate(String... values){
+                    protected void onProgressUpdate(String... values) {
                         mDialog.setMessage(values[0]);
                     }
 

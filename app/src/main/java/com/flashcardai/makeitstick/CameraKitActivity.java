@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.wonderkiln.camerakit.CameraKitError;
 import com.wonderkiln.camerakit.CameraKitEvent;
@@ -16,11 +17,13 @@ import com.wonderkiln.camerakit.CameraKitImage;
 import com.wonderkiln.camerakit.CameraKitVideo;
 import com.wonderkiln.camerakit.CameraView;
 
-public class CameraKitActivity extends AppCompatActivity implements View.OnClickListener{
+public class CameraKitActivity extends AppCompatActivity implements View.OnClickListener {
     private CameraView cameraView;
     private Button captureButton;
+    private ProgressBar progressBar;
     private CameraKitEventListener cameraListener = new CameraKitEventListener() {
         private boolean canTakePicture;
+
         @Override
         public void onEvent(CameraKitEvent cameraKitEvent) {
             switch (cameraKitEvent.getType()) {
@@ -34,7 +37,8 @@ public class CameraKitActivity extends AppCompatActivity implements View.OnClick
         }
 
         @Override
-        public void onError(CameraKitError cameraKitError) {}
+        public void onError(CameraKitError cameraKitError) {
+        }
 
         @Override
         public void onImage(CameraKitImage cameraKitImage) {
@@ -54,6 +58,7 @@ public class CameraKitActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_camera_kit);
         cameraView = findViewById(R.id.camera);
         captureButton = findViewById(R.id.btnCapture);
+        progressBar = findViewById(R.id.progressBar);
 
         captureButton.setOnClickListener(this);
         cameraView.addCameraKitListener(cameraListener);
@@ -73,16 +78,15 @@ public class CameraKitActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        if(v == captureButton)
+        if (v == captureButton) {
             cameraView.captureImage(new CameraKitEventCallback<CameraKitImage>() {
                 @Override
                 public void callback(CameraKitImage cameraKitImage) {
-                    Bitmap bitmap = cameraKitImage.getBitmap();
                     Intent intent = new Intent(CameraKitActivity.this, ProcessActivity.class);
-                    Storage.getInstance().setBitmap(bitmap);
-                    bitmap = Storage.getInstance().getBitmap();
+                    Storage.getInstance().setBitmap(cameraKitImage.getBitmap());
                     startActivity(intent);
                 }
             });
+        }
     }
 }
