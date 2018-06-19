@@ -58,7 +58,7 @@ public class CameraKitActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_camera_kit);
         cameraView = findViewById(R.id.camera);
         captureButton = findViewById(R.id.btnCapture);
-        progressBar = findViewById(R.id.progressBar);
+        //progressBar = findViewById(R.id.progressBar);
 
         captureButton.setOnClickListener(this);
         cameraView.addCameraKitListener(cameraListener);

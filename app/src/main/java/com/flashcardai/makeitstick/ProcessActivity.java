@@ -1,6 +1,7 @@
 package com.flashcardai.makeitstick;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -80,13 +81,16 @@ public class ProcessActivity extends AppCompatActivity {
                             for (Line line : region.lines) {
                                 for (Word word : line.words) {
                                     stringBuilder.append(word.text + " ");
-                                    stringBuilder.append("\n");
                                 }
                             }
-                            stringBuilder.append("\n\n");
+                            stringBuilder.append("\n");
                         }
                         txtDescription.setText(stringBuilder);
                         Toast.makeText(ProcessActivity.this, stringBuilder, Toast.LENGTH_LONG).show();
+
+                        Intent intent = new Intent(ProcessActivity.this, WatsonProcess.class );
+                        Storage.getInstance().setVisionProcessedString(stringBuilder);
+                        startActivity(intent);
                     }
 
                     @Override
