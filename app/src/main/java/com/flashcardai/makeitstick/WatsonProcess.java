@@ -38,7 +38,7 @@ public class WatsonProcess extends AppCompatActivity {
         String visionText = sBuilder.toString();
 
         ConceptsOptions concepts = new ConceptsOptions.Builder()
-                .limit(3)
+                .limit(20)
                 .build();
 
         Features features = new Features.Builder()

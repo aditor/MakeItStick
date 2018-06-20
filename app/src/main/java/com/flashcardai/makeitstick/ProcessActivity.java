@@ -29,7 +29,7 @@ public class ProcessActivity extends AppCompatActivity {
     Button btnProcess;
     ImageView imageView;
     TextView textDescription;
-    public VisionServiceClient visionServiceClient = new VisionServiceRestClient("1409b995e5b74425bdef891cd7ef0814", "http://westus.api.cognitive.microsoft.com/vision/v1.0");
+    public VisionServiceClient visionServiceClient = new VisionServiceRestClient("1409b995e5b74425bdef891cd7ef0814", "http://westus.api.cognitive.microsoft.com/vision/v2.0");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
